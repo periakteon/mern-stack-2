@@ -1,31 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import './App.css';
 
-const App = () => {
-  const [count, setCount] = useState(0);
-  const [isRunning, setIsRunning] = useState(true);
-
-  useEffect(() => {
-    let interval;
-    if (isRunning) {
-      interval = setInterval(() => {
-        setCount(count => count + 1);
-      }, 1000);
-    }
-
-    return () => clearInterval(interval);
-  }, [isRunning]);
-
-  const handleStop = () => {
-    setIsRunning(false);
-  };
-
+function App() {
   return (
-    <>
-      <h1>Count: {count}</h1>
-      {isRunning && <button onClick={handleStop}>Stop</button>}
-      {!isRunning && <button onClick={() => setIsRunning(true)}>Start</button>}
-    </>
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
   );
-};
+}
 
 export default App;
