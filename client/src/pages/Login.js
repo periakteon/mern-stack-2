@@ -10,7 +10,10 @@ import {
   MDBSpinner,
   MDBValidationItem,
 } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { login } from "../../src/redux/features/authSlice";
 
 const initialState = {
   email: "",
@@ -19,11 +22,20 @@ const initialState = {
 
 const Login = () => {
   const [formValue, setFormValue] = useState(initialState);
-
+  const { loading, error } = useSelector((state) => ({ ...state.auth })); // authSlice içerisindeki "loading" ve "error" değerlerini kullanmak üzere parametre olarak alıyoruz
   const { email, password } = formValue;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (email && password) {
+      dispatch(login({ formValue, navigate, toast })); // authSlice içerisindeki "login" fonksiyonunda kullanmak üzere props geçiyoruz
+    }
   };
 
   const onInputChange = (e) => {
@@ -51,7 +63,7 @@ const Login = () => {
             <MDBValidationItem
               className='col-md-12'
               feedback='Lütfen geçerli bir e-mail giriniz.'
-              invalid="true"
+              invalid='true'
             >
               <MDBInput
                 label='Email'
@@ -60,7 +72,7 @@ const Login = () => {
                 name='email'
                 onChange={onInputChange}
                 required
-                invalid="true"
+                invalid='true'
                 validation='Lütfen geçerli bir e-mail giriniz.'
               />
             </MDBValidationItem>
@@ -76,13 +88,25 @@ const Login = () => {
                 name='password'
                 onChange={onInputChange}
                 required
-                invalid="true"
+                invalid='true'
                 validation='Lütfen geçerli bir parola giriniz.'
               />
             </MDBValidationItem>
             <div className='col-12'>
               <MDBBtn style={{ width: "100%" }} className='mt-2'>
-                Giriş Yap
+                {loading ? (
+                  <>
+                    <MDBSpinner
+                      size='sm'
+                      role='status'
+                      tag='span'
+                      className='me-2'
+                    />
+                    Giriş yapılıyor...
+                  </>
+                ) : (
+                  "Giriş Yap"
+                )}
               </MDBBtn>
             </div>
           </MDBValidation>
