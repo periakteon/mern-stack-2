@@ -55,52 +55,52 @@ const Login = () => {
         marginTop: "120px",
       }}
     >
-      <MDBCard alignment='center'>
-        <MDBIcon fas icon='user-circle' className='fa-2x p-4' />
+      <MDBCard alignment="center">
+        <MDBIcon fas icon="user-circle" className="fa-2x p-4" />
         <h5>Üye Girişi</h5>
         <MDBCardBody>
-          <MDBValidation onSubmit={handleSubmit} noValidate className='row g-3'>
+          <MDBValidation onSubmit={handleSubmit} noValidate className="row g-3">
             <MDBValidationItem
-              className='col-md-12'
-              feedback='Lütfen geçerli bir e-mail giriniz.'
-              invalid='true'
+              className="col-md-12"
+              feedback="Lütfen geçerli bir e-mail giriniz."
+              invalid="true"
             >
               <MDBInput
-                label='Email'
-                type='email'
+                label="Email"
+                type="email"
                 value={email}
-                name='email'
+                name="email"
                 onChange={onInputChange}
                 required
-                invalid='true'
-                validation='Lütfen geçerli bir e-mail giriniz.'
+                invalid="true"
+                validation="Lütfen geçerli bir e-mail giriniz."
               />
             </MDBValidationItem>
             <MDBValidationItem
-              className='col-md-12'
-              feedback='Lütfen geçerli bir parola giriniz.'
+              className="col-md-12"
+              feedback="Lütfen geçerli bir parola giriniz."
               invalid
             >
               <MDBInput
-                label='Password'
-                type='password'
+                label="Password"
+                type="password"
                 value={password}
-                name='password'
+                name="password"
                 onChange={onInputChange}
                 required
-                invalid='true'
-                validation='Lütfen geçerli bir parola giriniz.'
+                invalid="true"
+                validation="Lütfen geçerli bir parola giriniz."
               />
             </MDBValidationItem>
-            <div className='col-12'>
-              <MDBBtn style={{ width: "100%" }} className='mt-2'>
+            <div className="col-12">
+              <MDBBtn style={{ width: "100%" }} className="mt-2">
                 {loading ? (
                   <>
                     <MDBSpinner
-                      size='sm'
-                      role='status'
-                      tag='span'
-                      className='me-2'
+                      size="sm"
+                      role="status"
+                      tag="span"
+                      className="me-2"
                     />
                     Giriş yapılıyor...
                   </>
@@ -112,7 +112,7 @@ const Login = () => {
           </MDBValidation>
         </MDBCardBody>
         <MDBCardFooter>
-          <Link to='/register'>
+          <Link to="/register">
             <p>Üyeliğiniz yok mu? Üye Ol</p>
           </Link>
         </MDBCardFooter>
