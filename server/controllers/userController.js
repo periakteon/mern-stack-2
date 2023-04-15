@@ -17,6 +17,26 @@ export const signup = async (req, res) => {
     const oldUser = await User.findOne({ email });
     if (oldUser)
       return res.status(400).json({ message: "Bu e-mail kullanılmaktadır." });
+    if (password.length < 6)
+      return res
+        .status(400)
+        .json({ message: "Parola en az 6 karakterden oluşmalıdır." });
+    if (firstName.length < 2)
+      return res
+        .status(400)
+        .json({ message: "Ad en az 2 karakterden oluşmalıdır." });
+    if (lastName.length < 2)
+      return res
+        .status(400)
+        .json({ message: "Soyad en az 2 karakterden oluşmalıdır." });
+    if (firstName.length > 20)
+      return res
+        .status(400)
+        .json({ message: "Ad 20 karakterden fazla olamaz." });
+    if (lastName.length > 20)
+      return res
+        .status(400)
+        .json({ message: "Soyad 20 karakterden fazla olamaz." });
     const hashedPassword = await bcrypt.hash(password, 10);
     const result = await User.create({
       email,

@@ -13,7 +13,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-// import { login } from "../../src/redux/features/authSlice";
+import { register } from "../../src/redux/features/authSlice";
 
 const initialState = {
   firstName: "",
@@ -36,9 +36,12 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (email && password) {
-    //   dispatch(login({ formValue, navigate, toast })); // authSlice içerisindeki "login" fonksiyonunda kullanmak üzere props geçiyoruz
-    // }
+    if (password !== confirmPassword) {
+      return toast.error("Girilen parolalar eşleşmiyor.");
+    }
+    if (firstName && lastName && email && password && confirmPassword ) {
+      dispatch(register({ formValue, navigate, toast })); // authSlice içerisindeki "register" fonksiyonunda kullanmak üzere props geçiyoruz / sevk ediyoruz (dispatch)
+    }
   };
 
   const onInputChange = (e) => {
@@ -129,18 +132,18 @@ const Register = () => {
             </MDBValidationItem>
             <MDBValidationItem
               className='col-md-12'
-              feedback='Lütfen parolanızı yeniden giriniz.'
+              feedback='Lütfen parolanızı onaylayınız.'
               invalid
             >
               <MDBInput
-                label='Parola (Yeniden Giriniz)'
+                label='Parola Onayı'
                 type='password'
                 value={confirmPassword}
                 name='confirmPassword'
                 onChange={onInputChange}
                 required
                 invalid='true'
-                validation='Lütfen parolanızı yeniden giriniz.'
+                validation='Lütfen parolanızı onaylayınız.'
               />
             </MDBValidationItem>
             <div className='col-12'>
