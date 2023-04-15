@@ -28,7 +28,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    error && toast.error(error);
+    error && toast.error(error); // "error" değeri varsa "toast.error" ile ekrana yazdırıyoruz (authSlice içerisindeki "login" fonksiyonunda "return rejectWithValue(error.response.data);" ile döndürdüğümüz "error.response.data" değerini alıyoruz - buradaki "error.response.data" değeri backend tarafından döndürülen "message" değeridir)
   }, [error]);
 
   const handleSubmit = (e) => {
