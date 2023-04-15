@@ -22,7 +22,7 @@ const initialState = {
 
 const Login = () => {
   const [formValue, setFormValue] = useState(initialState);
-  const { loading, error } = useSelector((state) => ({ ...state.auth })); // authSlice içerisindeki "loading" ve "error" değerlerini kullanmak üzere parametre olarak alıyoruz
+  const { loading, error } = useSelector((state) => ({ ...state.auth })); // authSlice içerisindeki "loading" ve "error" değerlerini kullanmak üzere parametre olarak alıyoruz // "auth" adındaki state'e erişmek için "useSelector" kullanıyoruz
   const { email, password } = formValue;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const Login = () => {
       }}
     >
       <MDBCard alignment="center">
-        <MDBIcon fas icon="user-circle" className="fa-2x p-4" />
+        <MDBIcon fas icon="user-lock" className="fa-2x p-4" />
         <h5>Üye Girişi</h5>
         <MDBCardBody>
           <MDBValidation onSubmit={handleSubmit} noValidate className="row g-3">

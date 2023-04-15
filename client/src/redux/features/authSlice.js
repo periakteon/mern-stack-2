@@ -4,7 +4,8 @@ import * as api from "../api";
 // asenkron bir işlem yapacağımız için "createAsyncThunk" kullanıyoruz
 export const login = createAsyncThunk(
   // createAsyncThunk takes two arguments: a string (action) and an async function.
-  // "auth/login" adında bir action oluşturuyoruz (bu action'ı "authSlice" içerisinde kullanacağız) || buradaki "auth" tamamen keyfidir, bir namespace oluşturur. "login" ise action'ın adıdır - ki bu "login"i de extraReducers içerisinde kullanacağız (örneğin: [login.pending]: (state, action) => { ... })
+
+  // "auth/login" adında bir action oluşturuyoruz (bu action'ı "authSlice" içerisinde kullanacağız) || buradaki "auth" tamamen keyfidir, bir namespace oluşturur. "login" ise action'ın adıdır
   "auth/login",
 
   // Async function that handles the logic of the action
