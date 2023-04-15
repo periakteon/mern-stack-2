@@ -26,7 +26,7 @@ app.use(cors());
 app.use(express.json({ limit: "50mb", extended: true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-app.use("/user", userRouter); // http://localhost:5000/user/signup
+app.use("/user", userRouter); // http://localhost:5000/user/
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
