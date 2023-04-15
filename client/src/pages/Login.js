@@ -51,7 +51,7 @@ const Login = () => {
             <MDBValidationItem
               className='col-md-12'
               feedback='Lütfen geçerli bir e-mail giriniz.'
-              invalid
+              invalid="true"
             >
               <MDBInput
                 label='Email'
@@ -60,7 +60,7 @@ const Login = () => {
                 name='email'
                 onChange={onInputChange}
                 required
-                invalid
+                invalid="true"
                 validation='Lütfen geçerli bir e-mail giriniz.'
               />
             </MDBValidationItem>
@@ -76,7 +76,7 @@ const Login = () => {
                 name='password'
                 onChange={onInputChange}
                 required
-                invalid
+                invalid="true"
                 validation='Lütfen geçerli bir parola giriniz.'
               />
             </MDBValidationItem>
