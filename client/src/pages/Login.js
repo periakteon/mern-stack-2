@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../../src/redux/features/authSlice";
+import { GoogleLogin } from "react-google-login";
+import { render } from "@testing-library/react";
 
 const initialState = {
   email: "",
@@ -43,7 +45,8 @@ const Login = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-  console.log(formValue);
+  const googleSuccess = () => {};
+  const googleFailure = () => {};
 
   return (
     <div
@@ -55,52 +58,52 @@ const Login = () => {
         marginTop: "120px",
       }}
     >
-      <MDBCard alignment="center">
-        <MDBIcon fas icon="user-lock" className="fa-2x p-4" />
+      <MDBCard alignment='center'>
+        <MDBIcon fas icon='user-lock' className='fa-2x p-4' />
         <h5>Üye Girişi</h5>
         <MDBCardBody>
-          <MDBValidation onSubmit={handleSubmit} noValidate className="row g-3">
+          <MDBValidation onSubmit={handleSubmit} noValidate className='row g-3'>
             <MDBValidationItem
-              className="col-md-12"
-              feedback="Lütfen geçerli bir e-mail giriniz."
-              invalid="true"
+              className='col-md-12'
+              feedback='Lütfen geçerli bir e-mail giriniz.'
+              invalid='true'
             >
               <MDBInput
-                label="Email"
-                type="email"
+                label='Email'
+                type='email'
                 value={email}
-                name="email"
+                name='email'
                 onChange={onInputChange}
                 required
-                invalid="true"
-                validation="Lütfen geçerli bir e-mail giriniz."
+                invalid='true'
+                validation='Lütfen geçerli bir e-mail giriniz.'
               />
             </MDBValidationItem>
             <MDBValidationItem
-              className="col-md-12"
-              feedback="Lütfen geçerli bir parola giriniz."
+              className='col-md-12'
+              feedback='Lütfen geçerli bir parola giriniz.'
               invalid
             >
               <MDBInput
-                label="Password"
-                type="password"
+                label='Password'
+                type='password'
                 value={password}
-                name="password"
+                name='password'
                 onChange={onInputChange}
                 required
-                invalid="true"
-                validation="Lütfen geçerli bir parola giriniz."
+                invalid='true'
+                validation='Lütfen geçerli bir parola giriniz.'
               />
             </MDBValidationItem>
-            <div className="col-12">
-              <MDBBtn style={{ width: "100%" }} className="mt-2">
+            <div className='col-12'>
+              <MDBBtn style={{ width: "100%" }} className='mt-2'>
                 {loading ? (
                   <>
                     <MDBSpinner
-                      size="sm"
-                      role="status"
-                      tag="span"
-                      className="me-2"
+                      size='sm'
+                      role='status'
+                      tag='span'
+                      className='me-2'
                     />
                     Giriş yapılıyor...
                   </>
@@ -110,9 +113,28 @@ const Login = () => {
               </MDBBtn>
             </div>
           </MDBValidation>
+          <br />
+          <GoogleLogin
+            clientId='YOUR_CLIENT_ID'
+            render={(renderProps) => (
+              <MDBBtn
+                style={{ width: "100%" }}
+                color='danger'
+                className='mt-2'
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <MDBIcon fab icon='google' className='me-2' />
+                Google ile giriş yap
+              </MDBBtn>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            cookiePolicy='single_host_origin'
+          />
         </MDBCardBody>
         <MDBCardFooter>
-          <Link to="/register">
+          <Link to='/register'>
             <p>Üyeliğiniz yok mu? Üye Ol</p>
           </Link>
         </MDBCardFooter>
