@@ -14,8 +14,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { login } from "../../src/redux/features/authSlice";
-import { GoogleLogin } from "react-google-login";
-import { render } from "@testing-library/react";
+import jwt_decode from "jwt-decode";
+
+const google = window.google;
 
 const initialState = {
   email: "",
@@ -45,8 +46,35 @@ const Login = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-  const googleSuccess = () => {};
-  const googleFailure = () => {};
+  // ------------ GOOGLE LOGIN START ------------
+  /* global google */
+
+  const [googleUser, setGoogleUser] = useState({});
+
+  const handleCallbackResponse = (response) => {
+    console.log("Encoded JWT ID Token:  ", response.credential);
+    const googleUserObject = jwt_decode(response.credential);
+    console.log("Decoded JWT ID Token:  ", googleUserObject);
+    setGoogleUser(googleUserObject);
+  };
+
+  const handleGoogleSignOut = (event) => {
+    setGoogleUser({});
+  };
+
+  useEffect(() => {
+    google?.accounts?.id?.initialize({
+      client_id:
+        "923883066110-qh90kfeaccm48sibu9tkr3a0ndnl5551.apps.googleusercontent.com",
+      callback: handleCallbackResponse,
+    });
+    google?.accounts?.id?.renderButton(
+      document.getElementById("googleSignInDiv"),
+      { theme: "outline", width: "375", shape: "rectangular", size: "large", logo_alignment: "center" }
+    );
+  }, []);
+
+  // ------------ GOOGLE LOGIN END ------------
 
   return (
     <div
@@ -58,87 +86,95 @@ const Login = () => {
         marginTop: "120px",
       }}
     >
-      <MDBCard alignment='center'>
-        <MDBIcon fas icon='user-lock' className='fa-2x p-4' />
-        <h5>Üye Girişi</h5>
-        <MDBCardBody>
-          <MDBValidation onSubmit={handleSubmit} noValidate className='row g-3'>
-            <MDBValidationItem
-              className='col-md-12'
-              feedback='Lütfen geçerli bir e-mail giriniz.'
-              invalid='true'
-            >
-              <MDBInput
-                label='Email'
-                type='email'
-                value={email}
-                name='email'
-                onChange={onInputChange}
-                required
-                invalid='true'
-                validation='Lütfen geçerli bir e-mail giriniz.'
-              />
-            </MDBValidationItem>
-            <MDBValidationItem
-              className='col-md-12'
-              feedback='Lütfen geçerli bir parola giriniz.'
-              invalid
-            >
-              <MDBInput
-                label='Password'
-                type='password'
-                value={password}
-                name='password'
-                onChange={onInputChange}
-                required
-                invalid='true'
-                validation='Lütfen geçerli bir parola giriniz.'
-              />
-            </MDBValidationItem>
-            <div className='col-12'>
-              <MDBBtn style={{ width: "100%" }} className='mt-2'>
-                {loading ? (
-                  <>
-                    <MDBSpinner
-                      size='sm'
-                      role='status'
-                      tag='span'
-                      className='me-2'
-                    />
-                    Giriş yapılıyor...
-                  </>
-                ) : (
-                  "Giriş Yap"
-                )}
-              </MDBBtn>
-            </div>
-          </MDBValidation>
-          <br />
-          <GoogleLogin
-            clientId='YOUR_CLIENT_ID'
-            render={(renderProps) => (
+      {Object?.keys(googleUser).length > 0 ? (
+        <MDBCard alignment='center'>
+          <MDBIcon fab icon='google' className='fa-4x p-4' />
+          <MDBCardBody>
+              <h3>{googleUser.name}</h3>
+              <p>{googleUser.email}</p>
+              <img src={googleUser.picture} alt='Google user avatar'></img>
               <MDBBtn
-                style={{ width: "100%" }}
-                color='danger'
-                className='mt-2'
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
+              className="btn btn-danger"
+                style={{ width: "100%", marginTop: "30px", padding: "15px", fontSize: "18px"}}
+                onClick={(e) => handleGoogleSignOut(e)}
               >
-                <MDBIcon fab icon='google' className='me-2' />
-                Google ile giriş yap
+                Çıkış Yap
               </MDBBtn>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy='single_host_origin'
-          />
-        </MDBCardBody>
-        <MDBCardFooter>
-          <Link to='/register'>
-            <p>Üyeliğiniz yok mu? Üye Ol</p>
-          </Link>
-        </MDBCardFooter>
-      </MDBCard>
+          </MDBCardBody>
+        </MDBCard>
+      ) : (
+        <MDBCard alignment='center'>
+          <MDBIcon fas icon='user-lock' className='fa-2x p-4' />
+          <h5>Üye Girişi</h5>
+          <MDBCardBody>
+            <MDBValidation
+              onSubmit={handleSubmit}
+              noValidate
+              className='row g-3'
+            >
+              <MDBValidationItem
+                className='col-md-12'
+                feedback='Lütfen geçerli bir e-mail giriniz.'
+                invalid='true'
+              >
+                <MDBInput
+                  label='Email'
+                  type='email'
+                  value={email}
+                  name='email'
+                  onChange={onInputChange}
+                  required
+                  invalid='true'
+                  validation='Lütfen geçerli bir e-mail giriniz.'
+                />
+              </MDBValidationItem>
+              <MDBValidationItem
+                className='col-md-12'
+                feedback='Lütfen geçerli bir parola giriniz.'
+                invalid
+              >
+                <MDBInput
+                  label='Password'
+                  type='password'
+                  value={password}
+                  name='password'
+                  onChange={onInputChange}
+                  required
+                  invalid='true'
+                  validation='Lütfen geçerli bir parola giriniz.'
+                />
+              </MDBValidationItem>
+              <div className='col-12'>
+                <MDBBtn style={{ width: "100%" }} className='mt-2'>
+                  {loading ? (
+                    <>
+                      <MDBSpinner
+                        size='sm'
+                        role='status'
+                        tag='span'
+                        className='me-2'
+                      />
+                      Giriş yapılıyor...
+                    </>
+                  ) : (
+                    "Giriş Yap"
+                  )}
+                </MDBBtn>
+              </div>
+            </MDBValidation>
+            <br />
+            <hr className="hr hr-blurry"/>
+            <div style={{ width: "100%" }}>
+              <div id='googleSignInDiv'></div>
+            </div>
+          </MDBCardBody>
+          <MDBCardFooter>
+            <Link to='/register'>
+              <p>Üyeliğiniz yok mu? Üye Ol</p>
+            </Link>
+          </MDBCardFooter>
+        </MDBCard>
+      )}
     </div>
   );
 };

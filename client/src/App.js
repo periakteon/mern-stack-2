@@ -9,12 +9,12 @@ import Register from "./pages/Register";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className='App'>
         <ToastContainer />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </div>
     </BrowserRouter>
