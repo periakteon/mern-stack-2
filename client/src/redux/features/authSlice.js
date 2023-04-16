@@ -63,7 +63,11 @@ const authSlice = createSlice({
   reducers: {
     setUserPersisted: (state, action) => {
       state.user = action.payload; // Local storage'dan gelen "profile" bilgilerini "payload" olarak alıp, "user" state'ine atıyoruz - bu sayede kullanıcı giriş yaptıktan sonra sayfayı yenilediğinde kullanıcı bilgileri kaybolmuyor
-    }
+    },
+    setUserLogout: (state, action) => {
+      state.user = null;
+      localStorage.removeItem("profile");
+    },
   },
   // Asenkron işlemler için extraReducers
   extraReducers: {
@@ -117,6 +121,6 @@ const authSlice = createSlice({
   },
 });
 
-export const {setUserPersisted} = authSlice.actions;
+export const {setUserPersisted, setUserLogout} = authSlice.actions;
 
 export default authSlice.reducer;

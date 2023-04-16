@@ -10,10 +10,15 @@ import {
   MDBCollapse,
   MDBNavbarBrand,
 } from "mdb-react-ui-kit";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserLogout } from "../redux/features/authSlice";
 
 const Header = () => {
   const [showBurger, setShowBurger] = useState(false);
+  const dispatch = useDispatch();
+  const userLogoutHandler = () => {
+    dispatch(setUserLogout());
+  };
   const { user } = useSelector((state) => ({ ...state.auth }));
 
   return (
@@ -36,6 +41,13 @@ const Header = () => {
 
         <MDBCollapse navbar show={showBurger} className='mt-3'>
           <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
+            {
+              user?.result?._id && (
+                <p style={{marginRight: "30px", marginTop: "9px"}}>
+                  Hoşgeldin, <span style={{fontWeight: "bold"}}>{user?.result?.name}</span>
+                </p>
+              )
+            }
             <MDBNavbarItem>
               <MDBNavbarLink href='/'>
                 <p className='mx-2 fw-bolder'>Anasayfa</p>
@@ -57,7 +69,7 @@ const Header = () => {
             )}
             { user?.result?._id ? (<MDBNavbarItem>
               <MDBNavbarLink href='/logout'>
-                <p className='mx-2 fw-bolder'>Çıkış Yap</p>
+                <p className='mx-2 fw-bolder' onClick={userLogoutHandler}>Çıkış Yap</p>
               </MDBNavbarLink>
             </MDBNavbarItem>) : 
             (<MDBNavbarItem>
