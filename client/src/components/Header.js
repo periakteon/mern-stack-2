@@ -41,13 +41,28 @@ const Header = () => {
 
         <MDBCollapse navbar show={showBurger} className='mt-3'>
           <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
-            {
-              user?.result?._id && (
-                <p style={{marginRight: "30px", marginTop: "9px"}}>
-                  Hoşgeldin, <span style={{fontWeight: "bold"}}>{user?.result?.name}</span>
+            {!showBurger && user?.result?._id && (
+              <>
+                <p style={{ marginRight: "16px", marginTop: "9px" }}>
+                  Hoşgeldin,{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    {user?.result?.name}
+                  </span>
                 </p>
-              )
-            }
+                <div class='vr vr-blurry h-150 mb-2 mx-3'></div>
+              </>
+            )}
+            {showBurger && user?.result?._id && (
+              <>
+                <p>
+                  Hoşgeldin,{" "}
+                  <span style={{ fontWeight: "bold" }}>
+                    {user?.result?.name}
+                  </span>
+                </p>
+                <hr class='hr hr-blurry' />
+              </>
+            )}
             <MDBNavbarItem>
               <MDBNavbarLink href='/'>
                 <p className='mx-2 fw-bolder'>Anasayfa</p>
@@ -67,16 +82,21 @@ const Header = () => {
                 </MDBNavbarItem>
               </>
             )}
-            { user?.result?._id ? (<MDBNavbarItem>
-              <MDBNavbarLink href='/logout'>
-                <p className='mx-2 fw-bolder' onClick={userLogoutHandler}>Çıkış Yap</p>
-              </MDBNavbarLink>
-            </MDBNavbarItem>) : 
-            (<MDBNavbarItem>
-              <MDBNavbarLink href='/login'>
-                <p className='mx-2 fw-bolder'>Giriş Yap</p>
-              </MDBNavbarLink>
-            </MDBNavbarItem>)}
+            {user?.result?._id ? (
+              <MDBNavbarItem>
+                <MDBNavbarLink href='/logout'>
+                  <p className='mx-2 fw-bolder' onClick={userLogoutHandler}>
+                    Çıkış Yap
+                  </p>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+            ) : (
+              <MDBNavbarItem>
+                <MDBNavbarLink href='/login'>
+                  <p className='mx-2 fw-bolder'>Giriş Yap</p>
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+            )}
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>
