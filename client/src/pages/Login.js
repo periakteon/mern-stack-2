@@ -173,7 +173,7 @@ const Login = () => {
                 />
               </MDBValidationItem>
               <div className='col-12'>
-                <MDBBtn style={{ width: "100%" }} className='mt-2'>
+                <MDBBtn style={{ width: "100%" }} className='mt-2' color="dark">
                   {loading ? (
                     <>
                       <MDBSpinner
@@ -191,14 +191,14 @@ const Login = () => {
               </div>
             </MDBValidation>
             <br />
-            <hr className='hr hr-blurry' />
+            <hr className='hr hr-blurry' style={{marginBottom: "30px"}} />
             <div style={{ width: "100%" }}>
               <div id='googleSignInDiv'></div>
             </div>
           </MDBCardBody>
           <MDBCardFooter>
             <Link to='/register'>
-              <p>Üyeliğiniz yok mu? Üye Ol</p>
+              <p className="text-dark fw-bolder">Üyeliğiniz yok mu? Üye Ol</p>
             </Link>
           </MDBCardFooter>
         </MDBCard>

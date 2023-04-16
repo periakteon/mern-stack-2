@@ -147,7 +147,7 @@ const Register = () => {
               />
             </MDBValidationItem>
             <div className='col-12'>
-              <MDBBtn style={{ width: "100%" }} className='mt-2'>
+              <MDBBtn style={{ width: "100%" }} className='mt-2' color="dark">
                 {loading ? (
                   <>
                     <MDBSpinner
@@ -167,7 +167,7 @@ const Register = () => {
         </MDBCardBody>
         <MDBCardFooter>
           <Link to='/login'>
-            <p>Üyeliğiniz var mı? Giriş Yap</p>
+            <p className="text-dark fw-bolder">Üyeliğiniz var mı? Giriş Yap</p>
           </Link>
         </MDBCardFooter>
       </MDBCard>
