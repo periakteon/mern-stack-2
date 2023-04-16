@@ -10,9 +10,11 @@ import {
   MDBCollapse,
   MDBNavbarBrand,
 } from "mdb-react-ui-kit";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [showBurger, setShowBurger] = useState(false);
+  const { user } = useSelector((state) => ({ ...state.auth }));
 
   return (
     <MDBNavbar fixed='top' expand='lg' light bgColor='light'>
@@ -32,33 +34,37 @@ const Header = () => {
         </MDBNavbarToggler>
         {/* Hamburger menü için bitiş */}
 
-        <MDBCollapse navbar show={showBurger} className="mt-3">
+        <MDBCollapse navbar show={showBurger} className='mt-3'>
           <MDBNavbarNav right fullWidth={false} className='mb-2 mb-lg-0'>
             <MDBNavbarItem>
               <MDBNavbarLink href='/'>
                 <p className='mx-2 fw-bolder'>Anasayfa</p>
               </MDBNavbarLink>
             </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href='/addArticle'>
-                <p className='mx-2 fw-bolder'>Yazı Ekle</p>
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
-              <MDBNavbarLink href='/dashboard'>
-                <p className='mx-2 fw-bolder'>Dashboard</p>
-              </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
+            {user?.result?._id && (
+              <>
+                <MDBNavbarItem>
+                  <MDBNavbarLink href='/addArticle'>
+                    <p className='mx-2 fw-bolder'>Yazı Ekle</p>
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <MDBNavbarLink href='/dashboard'>
+                    <p className='mx-2 fw-bolder'>Dashboard</p>
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
+              </>
+            )}
+            { user?.result?._id ? (<MDBNavbarItem>
               <MDBNavbarLink href='/logout'>
                 <p className='mx-2 fw-bolder'>Çıkış Yap</p>
               </MDBNavbarLink>
-            </MDBNavbarItem>
-            <MDBNavbarItem>
+            </MDBNavbarItem>) : 
+            (<MDBNavbarItem>
               <MDBNavbarLink href='/login'>
                 <p className='mx-2 fw-bolder'>Giriş Yap</p>
               </MDBNavbarLink>
-            </MDBNavbarItem>
+            </MDBNavbarItem>)}
           </MDBNavbarNav>
         </MDBCollapse>
       </MDBContainer>
