@@ -13,7 +13,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { login } from "../../src/redux/features/authSlice";
+import { googleSignIn, login } from "../../src/redux/features/authSlice";
 import jwt_decode from "jwt-decode";
 
 const google = window.google;
@@ -52,26 +52,49 @@ const Login = () => {
   const [googleUser, setGoogleUser] = useState({});
 
   const handleCallbackResponse = (response) => {
-    console.log("Encoded JWT ID Token:  ", response.credential);
-    const googleUserObject = jwt_decode(response.credential);
+    console.log("Encoded JWT ID Token:  ", response?.credential);
+    const googleUserObject = jwt_decode(response?.credential);
     console.log("Decoded JWT ID Token:  ", googleUserObject);
     setGoogleUser(googleUserObject);
+    const email = googleUserObject?.email;
+    const name = googleUserObject?.name;
+    const token = response?.credential;
+    const googleId = googleUserObject?.sub;
+    const result = {
+      email,
+      name,
+      token,
+      googleId,
+    };
+    console.log("Result: ", result);
+    dispatch(googleSignIn({ result, navigate, toast }));
+
   };
 
   const handleGoogleSignOut = (event) => {
     setGoogleUser({});
   };
 
-  useEffect(() => {
-    google?.accounts?.id?.initialize({
+  const initializeGoogleButton = async () => {
+    await google?.accounts.id.initialize({
       client_id:
         "923883066110-qh90kfeaccm48sibu9tkr3a0ndnl5551.apps.googleusercontent.com",
       callback: handleCallbackResponse,
     });
-    google?.accounts?.id?.renderButton(
+    await google?.accounts.id.renderButton(
       document.getElementById("googleSignInDiv"),
-      { theme: "outline", width: "375", shape: "rectangular", size: "large", logo_alignment: "center" }
+      {
+        theme: "outline",
+        width: "375",
+        shape: "rectangular",
+        size: "large",
+        logo_alignment: "center",
+      }
     );
+  };
+
+  useEffect(() => {
+    initializeGoogleButton();
   }, []);
 
   // ------------ GOOGLE LOGIN END ------------
@@ -90,16 +113,21 @@ const Login = () => {
         <MDBCard alignment='center'>
           <MDBIcon fab icon='google' className='fa-4x p-4' />
           <MDBCardBody>
-              <h3>{googleUser.name}</h3>
-              <p>{googleUser.email}</p>
-              <img src={googleUser.picture} alt='Google user avatar'></img>
-              <MDBBtn
-              className="btn btn-danger"
-                style={{ width: "100%", marginTop: "30px", padding: "15px", fontSize: "18px"}}
-                onClick={(e) => handleGoogleSignOut(e)}
-              >
-                Çıkış Yap
-              </MDBBtn>
+            <h3>{googleUser.name}</h3>
+            <p>{googleUser.email}</p>
+            <img src={googleUser.picture} alt='Google user avatar'></img>
+            <MDBBtn
+              className='btn btn-danger'
+              style={{
+                width: "100%",
+                marginTop: "30px",
+                padding: "15px",
+                fontSize: "18px",
+              }}
+              onClick={(e) => handleGoogleSignOut(e)}
+            >
+              Çıkış Yap
+            </MDBBtn>
           </MDBCardBody>
         </MDBCard>
       ) : (
@@ -163,7 +191,7 @@ const Login = () => {
               </div>
             </MDBValidation>
             <br />
-            <hr className="hr hr-blurry"/>
+            <hr className='hr hr-blurry' />
             <div style={{ width: "100%" }}>
               <div id='googleSignInDiv'></div>
             </div>
