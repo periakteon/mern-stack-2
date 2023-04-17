@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Header from "./components/Header";
 import { useDispatch } from 'react-redux';
 import { setUserPersisted } from './redux/features/authSlice';
+import AddEditArticle from './pages/AddEditArticle';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/addArticle' element={<AddEditArticle />} />
+          <Route path='/editArticle/:id' element={<AddEditArticle />} />
         </Routes>
       </div>
     </BrowserRouter>

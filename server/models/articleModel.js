@@ -11,11 +11,9 @@ const articleSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true,
   },
   creator: {
     type: String,
-    required: true,
   },
   tags: {
     type: [String],
@@ -23,7 +21,6 @@ const articleSchema = new mongoose.Schema({
   },
   imageFile: {
     type: String,
-    required: true,
   },
   createdAt: {
     type: Date,
