@@ -18,7 +18,7 @@ const auth = async (req, res, next) => {
     } else {
       decodedData = jwt.decode(token);
       const googleId = decodedData?.sub.toString();
-      const user = await UserModel.findOne({ googleId });
+      const user = await User.findOne({ googleId });
       req.userId = user?._id;
     }
     next();
