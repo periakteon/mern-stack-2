@@ -3,9 +3,9 @@ import * as api from "../api";
 
 export const createArticle = createAsyncThunk(
   "article/create",
-  async ({ articleData, navigate, toast }, { rejectWithValue }) => {
+  async ({ updatedArticleData, navigate, toast }, { rejectWithValue }) => {
     try {
-      const response = await api.createArticle(articleData);
+      const response = await api.createArticle(updatedArticleData);
       toast.success("Makale başarıyla eklendi!");
       navigate("/");
       return response.data;

@@ -13,6 +13,7 @@ import FileBase from "react-file-base64";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { createArticle } from "../redux/features/articleSlice";
 
 
 const initialArticleState = {
@@ -28,6 +29,7 @@ const AddEditArticle = () => {
   const {error, loading} = useSelector((state) => ({...state.article}));
   const { user } = useSelector((state) => ({ ...state.auth }));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     error && toast.error(error);
@@ -55,7 +57,13 @@ const AddEditArticle = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
+    if (title && description && tags) {
+      const updatedArticleData = { ...articleData, name: user?.result?.name };
+      dispatch(createArticle({ updatedArticleData, navigate, toast }));
+      clearFormHandler();
+    } else {
+      toast.error("Lütfen tüm alanları doldurunuz.");
+    }
   };
 
 
