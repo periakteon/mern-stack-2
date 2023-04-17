@@ -23,15 +23,31 @@ const AddEditArticle = () => {
   const [articleData, setArticleData] = useState(initialArticleState);
   const { title, description, tags } = articleData;
 
-  const onInputChange = () => {};
+  const onInputChange = (e) => {
+    const { name, value } = e.target; // e.target.name ve e.target.value yerine name ve value olarak kullanabilmek için destructuring yapıyoruz.
+    setArticleData({ ...articleData, [name]: value });
+  };
 
-  const addTagHandler = () => {};
+  const addTagHandler = (tag) => {
+    setArticleData({ ...articleData, tags: [...articleData.tags, tag] }); // halihazırda var olan articleData'nın tüm verilerini alıyoruz ve articleData'nın sahip olduğu tags'leri ekleyip, ardından parametre olarak gelen tag'ı da ekliyoruz.
+  };
 
-  const deleteTagHandler = () => {};
+  const deleteTagHandler = (deletedTag) => {
+    setArticleData({
+      ...articleData,
+      tags: articleData.tags.filter((t) => t !== deletedTag),
+    }); // halihazırda var olan articleData'nın tüm verilerini alıyoruz ve articleData'nın sahip olduğu tags'leri filtreliyoruz. Filtreleme işleminde parametre olarak gelen tag'i siliyoruz. "deletedTag" koşulunu sağlamayan tag'lar kalıyor.
+  };
 
-  const submitHandler = () => {};
+  const clearFormHandler = () => {
+    setArticleData(initialArticleState);
+  };
 
-  const clearFormHandler = () => {};
+  const submitHandler = (e) => {
+    e.preventDefault();
+    
+  };
+
 
   return (
     <div
@@ -122,9 +138,14 @@ const AddEditArticle = () => {
             </MDBValidationItem>
 
             <MDBValidationItem className='col-12'>
-              <MDBBtn style={{ width: "100%" }}>Submit</MDBBtn>
-              <MDBBtn style={{ width: "100%" }} className='mt-2' color='danger' onClick={clearFormHandler}>
-                Clear
+              <MDBBtn style={{ width: "100%" }}>YAZIYI Ekle</MDBBtn>
+              <MDBBtn
+                style={{ width: "100%" }}
+                className='mt-2'
+                color='danger'
+                onClick={clearFormHandler}
+              >
+                Temizle
               </MDBBtn>
             </MDBValidationItem>
           </MDBValidation>
