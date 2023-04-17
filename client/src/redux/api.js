@@ -6,3 +6,5 @@ export const signIn = (formData) => API.post("/user/signin", formData); // POST 
 export const signUp = (formData) => API.post("/user/signup", formData); // POST request to /user/signup with formData parameter
 export const googleSignIn = (result) => API.post("/user/googleSignIn", result); // POST request to /user/signup with formData parameter
 
+export const createArticle = (articleData) => API.post("/article", articleData); // POST request to /article with articleData parameter
+

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   MDBCard,
   MDBCardBody,
@@ -12,6 +12,8 @@ import ChipInput from "material-ui-chip-input";
 import FileBase from "react-file-base64";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const initialArticleState = {
   title: "",
@@ -22,6 +24,14 @@ const initialArticleState = {
 const AddEditArticle = () => {
   const [articleData, setArticleData] = useState(initialArticleState);
   const { title, description, tags } = articleData;
+
+  const {error, loading} = useSelector((state) => ({...state.article}));
+  const { user } = useSelector((state) => ({ ...state.auth }));
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
 
   const onInputChange = (e) => {
     const { name, value } = e.target; // e.target.name ve e.target.value yerine name ve value olarak kullanabilmek için destructuring yapıyoruz.
