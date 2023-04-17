@@ -5,6 +5,7 @@ export const createArticle = async (req, res) => {
   const article = req.body;
   const newArticle = new Article({
     ...article,
+    creator: req.userId, // auth middleware'dan geliyor (makaleyi oluşturanın kim olduğunu görmek için)
     createdAt: new Date().toISOString(),
   });
   try {

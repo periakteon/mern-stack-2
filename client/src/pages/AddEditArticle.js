@@ -60,7 +60,6 @@ const AddEditArticle = () => {
     if (title && description && tags) {
       const updatedArticleData = { ...articleData, name: user?.result?.name };
       dispatch(createArticle({ updatedArticleData, navigate, toast }));
-      clearFormHandler();
     } else {
       toast.error("Lütfen tüm alanları doldurunuz.");
     }
